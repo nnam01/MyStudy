@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git 공부</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header class="bg-dark text-white text-center py-4">
+    <h1>Git 공부</h1>
+</header>
+
+<main class="container my-5 p-4 bg-white rounded shadow">
+    <p>Git은 분산 버전 관리 시스템으로, 소스 코드의 변경 이력을 관리하는 데 사용됨.</p>
+    <p>생활코딩의 <strong>"지옥에서온 GIT"</strong>을 바탕으로 학습하였음.</p>
+
+    <h2 class="mt-4 mb-3">기본 명령어</h2>
+    <ul class="list-unstyled">
+        <li><code>git init</code>: 새로운 Git 저장소를 초기화합니다.</li>
+        <li><code>git clone [url]</code>: 원격 저장소를 복제합니다.</li>
+        <li><code>git add [파일]</code>: 변경된 파일을 스테이징 영역에 추가합니다.</li>
+        <li><code>git commit -m "메시지"</code>: 스테이징 영역의 변경 사항을 커밋합니다. → 버전 만들기</li>
+        <li><code>git commit -am "메시지"</code>: 변경된 파일을 스테이징하고 커밋합니다. (새로 추가된 파일은 제외)</li>
+        <li><code>git commit --amend</code>: 마지막 커밋을 수정합니다.</li>
+        <li><code>git push</code>: 로컬 커밋을 원격 저장소에 푸시합니다.</li>
+        <li><code>git pull</code>: 원격 저장소의 변경 사항을 가져옵니다.</li>
+        <li><code>git fetch</code>: 원격 저장소의 변경 사항을 가져오지만, 자동으로 병합하지 않습니다.</li>
+        <li><code>git status</code>: 현재 작업 디렉토리의 상태를 확인합니다.</li>
+    </ul>
+
+    <h2 class="mt-4 mb-3">브랜치 관리</h2>
+    <ul class="list-unstyled">
+        <li><code>git branch</code>: 현재 브랜치 목록을 확인합니다.</li>
+        <li><code>git checkout [브랜치명]</code>: 다른 브랜치로 전환합니다.</li>
+        <li><code>git branch -d [브랜치명]</code>: 지정한 브랜치를 삭제합니다.</li>
+        <li><code>git branch -m [새 브랜치명]</code>: 현재 브랜치의 이름을 변경합니다.</li>
+        <li><code>git checkout -b [새 브랜치명]</code>: 새 브랜치를 생성하고 전환합니다.</li>
+        <li><code>git switch [브랜치명]</code>: 다른 브랜치로 전환합니다.</li>
+        <li><code>git switch -c [새 브랜치명]</code>: 새 브랜치를 생성하고 전환합니다.</li>
+    </ul>
+    <div class="alert alert-info">
+        <strong>참고:</strong> <code>git switch</code>는 브랜치 전환과 생성에 특화된 명령어입니다.<br>
+        <code>git checkout</code>은 브랜치 전환 외에도 파일 복원 등 다양한 용도로 사용됩니다.
+    </div>
+
+    <h2 class="mt-4 mb-3">병합 및 충돌 해결</h2>
+    <ul class="list-unstyled">
+        <li><code>git merge [브랜치 A]</code>: 지정한 브랜치 A를 현재 브랜치에 병합합니다.</li>
+        <li><code>git merge --abort</code>: 병합 중 충돌이 발생했을 때, 병합을 중단하고 이전 상태로 되돌립니다.</li>
+        <li><code>git cherry-pick [커밋ID]</code>: 특정 커밋을 현재 브랜치에 적용합니다.</li>
+    </ul>
+
+    <div class="alert alert-info">
+        <strong>Fast-forward 병합:</strong> 브랜치가 직선적으로 이어져 있을 때, 병합 시 새로운 커밋 없이 포인터만 이동<br>
+        <strong>Recursive 병합:</strong> 브랜치가 분기되었다가 다시 합쳐질 때, 새로운 커밋을 생성하여 병합
+    </div>
+
+    <p><strong>충돌 해결 절차:</strong></p>
+    <ol class="ms-3">
+        <li>충돌이 발생한 파일을 열어 충돌 부분을 수정</li>
+        <li><code>git add [파일]</code>로 변경 사항 스테이징</li>
+        <li><code>git commit</code>으로 병합 커밋 생성</li>
+    </ol>
+
+    <p><code>3-way merge</code>: base(공통 조상), me(현재 브랜치), other(병합 대상)를 비교하여 병합</p>
+    <p><code>git rebase [브랜치명]</code>: 현재 브랜치의 변경 사항을 지정 브랜치 위로 재배치 → 히스토리를 깔끔하게 유지 가능</p>
+
+    <h2 class="mt-4 mb-3">커밋 로그 및 비교</h2>
+    <ul class="list-unstyled">
+        <li><code>git log</code>: 커밋 이력을 확인</li>
+        <li><code>git log -p</code>: 각 커밋의 변경 내용을 확인</li>
+        <li><code>git log --oneline</code>: 커밋을 한 줄로 요약하여 표시</li>
+        <li><code>git log --branches --decorate --graph</code>: 브랜치와 커밋을 시각적으로 표시</li>
+        <li><code>git reflog</code>: 로컬 저장소의 참조 로그 확인</li>
+        <li><code>git show [커밋ID]</code>: 특정 커밋의 상세 정보 확인</li>
+        <li><code>git diff</code>: 변경 내용 비교</li>
+        <li><code>git diff [커밋ID1] [커밋ID2]</code>: 두 커밋 간 차이 비교</li>
+    </ul>
+
+    <h2 class="mt-4 mb-3">되돌리기 및 임시저장</h2>
+    <ul class="list-unstyled">
+        <li><code>git reset [커밋ID]</code>: 지정한 커밋으로 되돌리기 (로컬에서만 사용 권장)</li>
+        <li><code>git reset --hard [커밋ID]</code>: 지정 커밋 이후의 변경 사항 완전 삭제</li>
+        <li><code>git reset --soft [커밋ID]</code>: 커밋만 취소, 변경 사항은 유지</li>
+        <li><code>git revert [커밋ID]</code>: 변경을 취소하는 새로운 커밋 생성</li>
+        <li><code>git stash</code>: 현재 작업 중인 변경 사항을 임시로 저장합니다.</li>
+        <li><code>git stash pop</code>: 마지막에 저장한 스태시를 복원합니다.</li>
+    </ul>
+    <h2 class="mt-4 mb-3 text-primary">앞으로 공부해야 할 곳</h2>
+    <a href="https://github.com/git/git/" class="btn btn-dark">Git - fast, scalable, distributed revision control system</a>
+</main>
+</body>
+</html>
