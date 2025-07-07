@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database 공부</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<header class="bg-dark text-white text-center py-4">
+  <h1>Database 공부</h1>
+</header>
+<main class="container my-5 p-4 bg-white rounded shadow">
+  <p>데이터베이스는 데이터를 저장하고 관리하는 시스템, 다양한 형태의 데이터를 효율적으로 처리</p>
+
+  <h2 class="mt-4 mb-3">기본 개념</h2>
+  <div class="alert alert-info">
+    <li><strong>테이블(Table)</strong>: 데이터를 행과 열로 구성하여 저장하는 구조.</li>
+    <li><strong>행(Row)</strong>: 테이블의 각 데이터 항목. data 하나하나 = 수평으로 보는 값</li>
+    <li><strong>열(Column)</strong>: 데이터의 속성을 정의. data의 구조 속성 = 수직으로 보는 값 </li>
+  </div>
+
+  <h2 class="mt-4 mb-3">관계형 데이터베이스(RDBMS)</h2>
+  <p>관계형 데이터베이스는 데이터를 테이블 형태로 저장하고, SQL을 사용하여 데이터를 관리
+    <br>RDBMS 예시 MySQL, PostgreSQL, Oracle 등등</p>
+
+  <h2 class="mt-4 mb-3">SQL이란?</h2>
+  <p>SQL(Structured Query Language)은 관계형 데이터베이스에서 데이터를 정의하고 조작하기 위한 표준 언어.
+    <br>SQL을 사용하여 데이터베이스에 질의하고, 데이터를 삽입, 수정, 삭제 가능.</p>
+  <p>데이터베이스의 구조를 정의하고, 데이터를 검색하거나 조작하는 데 사용.
+    <br>DDL(Data Definition Language), DML(Data Manipulation Language), DCL(Data Control Language)로 나뉨.</p>
+  <div class="alert alert-info">
+    <li><strong>DDL (Data Definition Language)</strong>: 데이터베이스 구조를 정의하는 명령어. 예: <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code></li>
+    <li><strong>DML (Data Manipulation Language)</strong>: 데이터베이스의 데이터를 조작하는 명령어. 예: <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></li>
+    <li><strong>DCL (Data Control Language)</strong>: 데이터베이스 접근 권한을 제어하는 명령어. 예: <code>GRANT</code>, <code>REVOKE</code></li>
+  </div>
+
+  <h2 class="mt-4 mb-3">데이터베이스 설계</h2>
+  <p>데이터베이스 설계는 데이터를 어떻게 저장하고 관리할지를 결정하는 과정.
+    <br>좋은 데이터베이스 설계는 데이터 중복을 최소화하고, 데이터 무결성을 유지하며, 효율적인 쿼리를 가능</p>
+  <ul class="list-unstyled">
+    <li><strong>정규화(Normalization)</strong>: 데이터 중복을 최소화 -> 데이터 무결성을 유지, 데이터를 여러 테이블로 분리.</li>
+    <div class="alert alert-info">
+      <li><strong>1NF (First Normal Form)</strong>: 모든 열이 원자값(Atomic Value)을 가지도록</li>
+      <li><strong>2NF (Second Normal Form)</strong>: 1NF를 만족하고, 부분 종속성을 제거.</li>
+      <li><strong>3NF (Third Normal Form)</strong>: 2NF를 만족하고, 이행 종속성을 제거.</li>
+      <li><strong>BCNF (Boyce-Codd Normal Form)</strong>: 3NF를 만족하고, 모든 결정자가 후보 키가 되도록</li>
+      <li><strong>4NF (Fourth Normal Form)</strong>: 다치 종속성을 제거.</li>
+      <li><strong>5NF (Fifth Normal Form)</strong>: 조인 종속성을 제거.</li>
+      <li><strong>6NF (Sixth Normal Form)</strong>: 시간에 따른 데이터 변화를 관리하기 위한 정규화.</li>
+    </div>
+  </ul>
+  <ul class="list-unstyled">
+    <li><strong>비정규화(Denormalization)</strong>: 성능 향상을 위해 일부 데이터를 중복 저장하는 과정.</li>
+    <li><strong>ERD (Entity-Relationship Diagram)</strong>: 데이터베이스의 구조를 시각적으로 표현한 다이어그램.</li>
+    <li><strong>도메인 무결성(Domain Integrity)</strong>: 각 열이 정의된 도메인(데이터 타입, 범위 등)을 준수.</li>
+    <li><strong>참조 무결성(Referential Integrity)</strong>: 외래 키(Foreign Key)를 사용하여 테이블 간의 관계를 유지.</li>
+    <li><strong>무결성 제약 조건(Integrity Constraints)</strong>: 데이터의 무결성을 보장하기 위한 규칙을 정의.</li>
+
+  </ul>
+
+  <h2 class="mt-4 mb-3">SQL 명령어 예시</h2>
+  <ul class="list-unstyled">
+    <li><code>CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50), age INT);</code>: users 테이블 생성</li>
+    <li><code>INSERT INTO users (id, name, age) VALUES (1, 'Alice', 30);</code>: 데이터 삽입</li>
+    <li><code>SELECT * FROM users WHERE age > 25;</code>: 조건에 맞는 데이터 조회</li>
+    <li><code>UPDATE users SET age = 31 WHERE id = 1;</code>: 데이터 수정</li>
+    <li><code>DELETE FROM users WHERE id = 1;</code>: 데이터 삭제</li>
+    <li><code>ALTER TABLE users ADD COLUMN email VARCHAR(100);</code>: 테이블 구조 변경</li>
+    <li><code>DROP TABLE users;</code>: 테이블 삭제</li>
+    <li><code>CREATE INDEX idx_users_name ON users (name);</code>: 인덱스 생성</li>
+  </ul>
+
+  <h2 class="mt-4 mb-3">그룹화와 집계 함수</h2>
+  <p>그룹화: 데이터를 특정 기준으로 묶어서 집계.
+    <br>집계 함수: 그룹화된 데이터에 대해 계산을 수행 함수.</p>
+  <ul class="list-unstyled">
+    <li><strong>GROUP BY</strong>: 데이터를 특정 열을 기준으로 정렬.</li>
+    <li><code>SELECT age, COUNT(*) FROM users GROUP BY age;</code>: 나이별 사용자 수를 조회</li>
+    <li><strong>HAVING</strong>: 그룹화된 데이터에 조건을 적용.</li>
+    <li><code>SELECT age, COUNT(*) FROM users GROUP BY age HAVING COUNT(*) > 1;</code>: 나이별 사용자 수가 1명 이상인 경우 조회</li>
+    <li><strong>집계 함수</strong>: SUM, AVG, MAX, MIN, COUNT 등의 함수를 사용하여 그룹화된 데이터에 대해 계산을 수행.</li>
+    <li><code>SELECT AVG(age) FROM users;</code>: 전체 사용자 평균 나이 조회</li>
+    <li><code>SELECT age, SUM(amount) FROM orders GROUP BY age;</code>: 나이별 주문 금액 합계 조회</li>
+  </ul>
+
+  <h2 class="mt-4 mb-3">서브쿼리</h2>
+  <p>서브쿼리는 다른 쿼리의 결과를 이용하여 데이터를 조회하는 방법.
+    <br>서브쿼리는 SELECT, INSERT, UPDATE, DELETE 문에서 사용 가능.</p>
+  <ul class="list-unstyled">
+    <li><code>SELECT name FROM users WHERE age = (SELECT MAX(age) FROM users);</code>: 서브쿼리를 사용하여 가장 나이가 많은 사용자의 이름 조회</li>
+    <li><code>INSERT INTO users (id, name, age) SELECT id, name, age FROM temp_users WHERE age > 25;</code>: 서브쿼리를 사용하여 조건에 맞는 데이터를 삽입</li>
+    <li><code>UPDATE users SET age = age + 1 WHERE id IN (SELECT id FROM users WHERE age < 30);</code>: 서브쿼리를 사용하여 특정 조건에 맞는 데이터 수정</li>
+    <li><code>DELETE FROM users WHERE id IN (SELECT id FROM users WHERE age < 20);</code>: 서브쿼리를 사용하여 특정 조건에 맞는 데이터 삭제</li>
+  </ul>
+
+  <h2 class="mt-4 mb-3">조인(Join)</h2>
+  <p>조인은 여러 테이블의 데이터를 결합하여 조회하는 방법.
+    <br>조인을 사용하면 관련된 데이터를 한 번에 조회 가능.</p>
+  <ul class="list-unstyled">
+    <li><strong>INNER JOIN</strong>: 두 테이블에서 일치하는 데이터만 조회.</li>
+    <li><code>SELECT users.name, orders.amount FROM users INNER JOIN orders ON users.id = orders.user_id;</code>: 사용자와 주문 데이터를 결합하여 조회</li>
+    <br>
+    <li><strong>LEFT JOIN</strong>: 왼쪽 테이블의 모든 데이터를 조회하고, 오른쪽 테이블과 일치하는 데이터가 없으면 NULL로 표시.</li>
+    <li><code>SELECT users.name, orders.amount FROM users LEFT JOIN orders ON users.id = orders.user_id;</code>: 모든 사용자와 해당 주문 데이터를 조회</li>
+    <br>
+    <li><strong>RIGHT JOIN</strong>: 오른쪽 테이블의 모든 데이터를 조회하고, 왼쪽 테이블과 일치하는 데이터가 없으면 NULL로 표시.</li>
+    <li><code>SELECT users.name, orders.amount FROM users RIGHT JOIN orders ON users.id = orders.user_id;</code>: 모든 주문과 해당 사용자를 조회</li>
+    <br>
+    <li><strong>FULL OUTER JOIN</strong>: 두 테이블의 모든 데이터를 조회하고, 일치하지 않는 데이터는 NULL로 표시.</li>
+    <li><code>SELECT users.name, orders.amount FROM users FULL OUTER JOIN orders ON users.id = orders.user_id;</code>: 모든 사용자와 주문 데이터를 조회</li>
+  </ul>
+
+  <h2 class="mt-4 mb-3">인덱스</h2>
+  <p>인덱스는 데이터베이스에서 데이터를 빠르게 검색할 수 있도록 도와줌.
+    <br>인덱스를 사용하면 검색 속도를 크게 향상시킬 수 있지만, 데이터 삽입, 수정, 삭제 시에는 추가적인 오버헤드가 발생 가능.</p>
+  <div class="alert alert-info">
+    <li><strong>클러스터드 인덱스(Clustered Index)</strong>: 테이블의 데이터를 실제로 정렬하여 저장하는 인덱스. 하나의 테이블에 하나만 존재 가능.</li>
+    <li><strong>논클러스터드 인덱스(Non-Clustered Index)</strong>: 테이블의 데이터를 별도로 정렬하여 저장하는 인덱스. 여러 개를 생성 가능.</li>
+    <li><strong>복합 인덱스(Composite Index)</strong>: 여러 열을 조합하여 생성한 인덱스. 복잡한 쿼리에서 성능을 향상 가능.</li>
+  </div>
+  <ul class="list-unstyled">
+    <li><strong>인덱스 생성</strong>: <code>CREATE INDEX idx_users_name ON users (name);</code>: users 테이블의 name 열에 인덱스 생성</li>
+    <li><strong>인덱스 삭제</strong>: <code>DROP INDEX idx_users_name;</code>: 인덱스 삭제</li>
+    <li><strong>인덱스 사용</strong>: 쿼리에서 인덱스를 자동으로 사용하여 검색 속도를 향상시킴.</li>
+    <li><strong>복합 인덱스</strong>: 여러 열을 조합하여 생성한 인덱스. <code>CREATE INDEX idx_users_name_age ON users (name, age);</code>: name과 age 열에 대한 복합 인덱스 생성</li>
+    <li><strong>인덱스 최적화</strong>: 자주 조회되는 열에 인덱스를 생성하여 성능을 향상시킬 수 있음.</li>
+    <li><strong>인덱스의 단점</strong>: 인덱스는 검색 속도를 향상시키지만, 데이터 삽입, 수정, 삭제 시에는 추가적인 오버헤드가 발생할 수 있음.</li>
+  </ul>
+
+  <h2 class="mt-4 mb-3">트랜잭션 예시</h2>
+  <p>트랜잭션을 사용하여 데이터베이스 작업을 원자적으로 처리하는 방법.</p>
+  <div class="alert alert-info">
+    <li><strong>원자성(Atomicity)</strong>: 트랜잭션 내의 모든 작업이 성공적으로 완료되거나, 모두 실패해야 함.</li>
+    <li><strong>일관성(Consistency)</strong>: 트랜잭션이 완료된 후 데이터베이스는 일관된 상태를 유지해야 함.</li>
+    <li><strong>격리성(Isolation)</strong>: 동시에 실행되는 트랜잭션은 서로 영향을 미치지 않아야 함.</li>
+    <li><strong>지속성(Durability)</strong>: 트랜잭션이 완료되면 그 결과는 영구적으로 저장되어야 함.</li>
+  </div>
+  <ul class="list-unstyled">
+    <li><code>BEGIN TRANSACTION;</code>: 트랜잭션 시작</li>
+    <li><code>INSERT INTO accounts (id, balance) VALUES (1, 1000);</code>: 계좌에 1000원 삽입</li>
+    <li><code>UPDATE accounts SET balance = balance - 100 WHERE id = 1;</code>: 계좌에서 100원 출금</li>
+    <li><code>COMMIT;</code>: 트랜잭션 완료 및 변경 사항 저장</li>
+    <li><code>ROLLBACK;</code>: 트랜잭션 중단 및 이전 상태로 되돌리기</li>
+  </ul>
+
+</main>
+</body>
+</html>
