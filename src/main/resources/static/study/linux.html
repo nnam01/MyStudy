@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux 공부</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+</head>
+<body>
+<header class="bg-dark text-white text-center py-4">
+  <h1>Linux 공부</h1>
+</header>
+<main class="container my-5 p-4 bg-white rounded shadow">
+  <!-- 네트워크 관련 명령어 -->
+  <h3 class="mt-4 mb-3">네트워크 관련 명령어</h3>
+  <ul class="list-unstyled">
+    <li><strong>ping</strong>: <code>ping [호스트]</code> – 네트워크 연결을 테스트합니다.</li>
+    <li><strong>curl</strong>: <code>curl [URL]</code> – URL로부터 데이터를 가져옵니다. + 웹페이지 소스 확인, 파일 다운로드,
+      POST요청 등 할 수 있음.
+    </li>
+    <li><strong>wget</strong>: <code>wget [URL]</code> – 웹에서 파일을 다운로드합니다.</li>
+    <li><strong>nslookup</strong>: <code>nslookup [도메인]</code> – 도메인의 IP 주소 정보를 확인합니다.</li>
+    <li><strong>netstat</strong>: <code>netstat -tuln</code> – 네트워크 상태와 포트 정보를 확인합니다.</li>
+    <li><strong>ssh</strong>: <code>ssh [사용자]@[호스트]</code> – 원격 서버에 SSH로 접속합니다.</li>
+    <li><strong>scp</strong>: <code>scp [파일] [사용자]@[호스트]:[경로]</code> – 원격 서버로 파일을 복사합니다.</li>
+  </ul>
+
+  <!-- 파일 및 디렉토리 관리 -->
+  <h3 class="mt-4 mb-3">파일 및 디렉토리 관리</h3>
+  <ul class="list-unstyled">
+    <li><strong>cd</strong>: <code>cd [디렉토리]</code> – 현재 작업 디렉토리를 변경합니다.</li>
+    <li><strong>ls</strong>: <code>ls</code> – 현재 디렉토리의 파일 및 디렉토리 목록을 표시합니다.</li>
+    <li><strong>mkdir</strong>: <code>mkdir [디렉토리명]</code> – 새 디렉토리를 생성합니다.</li>
+    <li><strong>rm</strong>: <code>rm [파일]</code> – 파일을 삭제합니다.</li>
+    <li><strong>rm -r</strong>: <code>rm -r [디렉토리]</code> – 디렉토리와 그 안의 모든 파일을 삭제합니다.</li>
+    <li><strong>cp</strong>: <code>cp [원본] [대상]</code> – 파일을 복사합니다.</li>
+    <li><strong>mv</strong>: <code>mv [원본] [대상]</code> – 파일이나 디렉토리를 이동하거나 이름을 변경합니다.</li>
+  </ul>
+
+  <!-- 프로세스 관리 -->
+  <h3 class="mt-4 mb-3">프로세스 관리</h3>
+  <ul class="list-unstyled">
+    <li><strong>ps</strong>: <code>ps aux</code> – 현재 실행 중인 프로세스 목록을 확인합니다.</li>
+    <li><strong>kill</strong>: <code>kill [PID]</code> – 지정한 PID의 프로세스를 종료합니다.</li>
+  </ul>
+
+  <!-- 파일 검색 및 수정 -->
+  <h3 class="mt-4 mb-3">파일 검색 및 수정</h3>
+  <ul class="list-unstyled">
+    <li><strong>grep</strong>: <code>grep [패턴] [파일]</code> – 파일에서 패턴을 검색합니다.</li>
+    <li><strong>find</strong>: <code>find [경로] -name [파일명]</code> – 지정한 경로에서 파일을 검색합니다.</li>
+    <li><strong>sed</strong>: <code>sed 's/old/new/g' [파일]</code> – 파일에서 문자열을 치환하거나 수정합니다.</li>
+    <li><strong>cat</strong>: <code>cat [파일]</code> – 파일의 내용을 출력합니다.</li>
+    <li><strong>echo</strong>: <code>echo "문자열"</code> – 문자열을 출력합니다.</li>
+    <li><strong>head</strong>: <code>head -n [숫자] [파일]</code> – 파일의 처음 몇 줄을 출력합니다.</li>
+    <li><strong>tail</strong>: <code>tail -n [숫자] [파일]</code> – 파일의 마지막 몇 줄을 출력합니다.</li>
+    <li><strong>diff</strong>: <code>diff [파일1] [파일2]</code> – 두 파일의 차이를 비교합니다.</li>
+    <li><strong>man</strong>: <code>man [명령어]</code> – 해당 명령어의 매뉴얼(도움말)을 보여줍니다.</li>
+
+
+  </ul>
+
+  <!-- 파일 권한 및 소유권 관리 -->
+  <h3 class="mt-4 mb-3">파일 권한 및 소유권 관리</h3>
+  <ul class="list-unstyled">
+    <li><strong>chmod</strong>: <code>chmod [권한] [파일]</code> – 파일의 권한을 변경합니다.</li>
+    <li><strong>chown</strong>: <code>chown [사용자]:[그룹] [파일]</code> – 파일의 소유자와 그룹을 변경합니다.</li>
+  </ul>
+
+  <!-- 파일 압축 및 디스크 관리 -->
+  <h3 class="mt-4 mb-3">파일 압축 및 디스크 관리</h3>
+  <ul class="list-unstyled">
+    <li><strong>tar</strong>: <code>tar -cvf [아카이브명.tar] [디렉토리]</code> – 디렉토리를 tar 아카이브로 압축합니다.</li>
+    <li><strong>tar</strong>: <code>tar -xvf [아카이브명.tar]</code> – tar 아카이브를 압축 해제합니다.</li>
+    <li><strong>zip</strong>: <code>zip [아카이브명.zip] [파일]</code> – 파일을 zip 아카이브로 압축합니다.</li>
+    <li><strong>unzip</strong>: <code>unzip [아카이브명.zip]</code> – zip 아카이브를 압축 해제합니다.</li>
+    <li><strong>df</strong>: <code>df -h</code> – 파일 시스템의 디스크 사용량을 표시합니다.</li>
+    <li><strong>du</strong>: <code>du -sh [디렉토리]</code> – 디렉토리의 크기를 요약하여 표시합니다.</li>
+  </ul>
+
+  <!-- 시스템 상태 확인 -->
+  <h3 class="mt-4 mb-3">시스템 상태 확인</h3>
+  <ul class="list-unstyled">
+    <li><strong>stat</strong>: <code>stat [파일]</code> – 파일의 상태 정보를 표시합니다.</li>
+    <li><strong>file</strong>: <code>file [파일]</code> – 파일의 타입을 확인합니다.</li>
+    <li><strong>which</strong>: <code>which [명령어]</code> – 명령어의 경로를 확인합니다.</li>
+  </ul>
+  <hr class="my-5">
+  <h2 class="mt-4 mb-3">시스템 관리</h2>
+  <ul class="list-unstyled">
+    <li><strong>systemctl</strong>: 시스템 및 서비스 관리 명령어입니다.</li>
+    <li><strong>서비스</strong>: 시스템에서 실행되는 백그라운드 프로세스입니다. 예를 들어, 웹 서버, 데이터베이스 서버 등이 있습니다. jar파일 등을 중지하고 재실행 할 수 있음.</li>
+
+    <li><code>systemctl start [서비스]</code>: 서비스를 시작합니다.</li>
+    <li><code>systemctl stop [서비스]</code>: 서비스를 중지합니다.</li>
+    <li><code>systemctl restart [서비스]</code>: 서비스를 재시작합니다.</li>
+    <li><code>systemctl status [서비스]</code>: 서비스의 상태를 확인합니다.</li>
+    <li><code>systemctl enable [서비스]</code>: 부팅 시 자동으로 서비스를 시작하도록 설정합니다.</li>
+    <li><code>systemctl disable [서비스]</code>: 부팅 시 자동으로 서비스를 시작하지 않도록 설정합니다.</li>
+    //systemctl daemon
+    <li><code>systemctl daemon-reload</code>: 서비스 파일을 변경한 후, 시스템 데몬을 다시 로드합니다.</li>
+  </ul>
+  <h3 class="mt-4 mb-3">시스템 모니터링</h3>
+  <ul class="list-unstyled">
+    <li><strong>top</strong>: 시스템의 현재 프로세스와 리소스 사용량을 실시간으로 모니터링합니다.</li>
+    <li><strong>htop</strong>: <code>htop</code> – top 명령어의 대안으로, 더 직관적인 인터페이스를 제공합니다.</li>
+    <li><strong>free</strong>: <code>free -h</code> – 시스템의 메모리 사용량을 확인합니다.</li>
+  </ul>
+</main>
+
+</body>
+</html>
