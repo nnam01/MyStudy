@@ -1,12 +1,12 @@
-package com.nnam01.MyStudy.controller;
+package com.nnam01.MyStudy.comment.controller;
 
-import com.nnam01.MyStudy.controller.spec.CommentApi;
-import com.nnam01.MyStudy.domain.Comment;
-import com.nnam01.MyStudy.dto.comment.CommentRequest;
-import com.nnam01.MyStudy.dto.comment.CommentDto;
-import com.nnam01.MyStudy.dto.comment.CommentListDto;
-import com.nnam01.MyStudy.service.CommentService;
-import java.util.List;
+import com.nnam01.MyStudy.comment.domain.Comment;
+import com.nnam01.MyStudy.comment.dto.CommentDto;
+import com.nnam01.MyStudy.comment.dto.CommentListDto;
+import com.nnam01.MyStudy.comment.dto.CommentRequestDto;
+import com.nnam01.MyStudy.comment.service.CommentService;
+import com.nnam01.MyStudy.comment.spec.CommentApi;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +19,10 @@ public class CommentController implements CommentApi {
     private final CommentService commentService;
 
     @Override
-    public ResponseEntity<Void> createComment(Long postId, CommentRequest request) {
-        commentService.createComment(postId, request.getAuthorId(), request.getContent());
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> createComment(Long postId, CommentRequestDto request) {
+        Comment comment = commentService.createComment(postId, request.getAuthorId(),
+            request.getContent());
+        return ResponseEntity.created(URI.create("/api/comments/post/"+comment.getId())).build();
     }
 
     @Override
@@ -31,18 +32,18 @@ public class CommentController implements CommentApi {
 
     @Override
     public ResponseEntity<CommentListDto> getCommentListByPostId(Long postId) {
-        List<Comment> commentList = commentService.getCommentListByPostId(postId);
-        return ResponseEntity.ok();
+        return ResponseEntity.ok(commentService.getCommentListByPostId(postId));
     }
 
     @Override
-    public ResponseEntity<Void> updateComment(Long commentId, CommentRequest request) {
+    public ResponseEntity<Void> updateComment(Long commentId, CommentRequestDto request) {
         commentService.updateComment(commentId, request);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override
-    public ResponseEntity<Void> deleteComment(Long commentId, CommentRequest request) {
-        return null;
+    public ResponseEntity<Void> deleteComment(Long commentId, CommentRequestDto request) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.noContent().build();
     }
 }

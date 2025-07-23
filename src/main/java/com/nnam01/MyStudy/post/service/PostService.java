@@ -1,50 +1,51 @@
-package com.nnam01.MyStudy.service;
+package com.nnam01.MyStudy.post.service;
 
 import com.nnam01.MyStudy.post.domain.Post;
-import com.nnam01.MyStudy.post.dto.PostUpdateRequest;
+import com.nnam01.MyStudy.post.dto.PostDto;
+import com.nnam01.MyStudy.post.dto.PostRequestDto;
+import com.nnam01.MyStudy.post.mapper.PostDtoMapper;
 import com.nnam01.MyStudy.post.repository.PostRepository;
+import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    private final PostDtoMapper postDtoMapper;
 
     @Transactional
-    public Post createPost(String title, String content, Long authorId) {
-        Post post = new Post(title, content, authorId);
-        return postRepository.save(post);
+    public PostDto createPost(String title, String content, Long authorId) {
+        Post post = postRepository.save(new Post(title, content, authorId));
+        return postDtoMapper.toDto(post);
     }
 
     @Transactional(readOnly = true)
-    public Post getPost(Long id) {
-        return postRepository.findById(id).orElse(null);
-    }
-
-    @Transactional(readOnly = true)
-    public java.util.List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public PostDto getPostById(Long id) {
+        Post post = postRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
+        return postDtoMapper.toDto(post);
     }
 
     @Transactional
-    public Post updatePost(Long id, PostUpdateRequest request) {
-        Post post = postRepository.findById(id).orElse(null);
-        if (post != null) {
-            post.setTitle(request.getTitle());
-            post.setContent(request.getContent());
-            post.setAuthorId(request.getAuthorId());
-            post.setModifiedAt(java.time.LocalDateTime.now());
-            return postRepository.save(post);
-        }
-        return null;
+    public PostDto updatePost(Long id, PostRequestDto request) {
+        Post post = postRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
+        post.setTitle(request.getTitle());
+        post.setContent(request.getContent());
+        post.setAuthorId(request.getAuthorId());
+        post.setModifiedAt(LocalDateTime.now());
+        return postDtoMapper.toDto(postRepository.save(post));
+
     }
 
     @Transactional
     public void deletePost(Long id) {
+        Post post = postRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
         postRepository.deleteById(id);
     }
 }

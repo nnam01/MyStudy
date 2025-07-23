@@ -1,7 +1,9 @@
-package com.nnam01.MyStudy.dto.comment;
+package com.nnam01.MyStudy.comment.dto;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 public class CommentDto {
 
   private Long id;

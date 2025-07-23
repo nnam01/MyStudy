@@ -1,6 +1,6 @@
-package com.nnam01.MyStudy.repository;
+package com.nnam01.MyStudy.comment.repository;
 
-import com.nnam01.MyStudy.domain.Comment;
+import com.nnam01.MyStudy.comment.domain.Comment;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

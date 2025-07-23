@@ -1,8 +1,8 @@
-package com.nnam01.MyStudy.comment.controller;
+package com.nnam01.MyStudy.comment.spec;
 
-import com.nnam01.MyStudy.comment.dto.CommentRequestDto;
 import com.nnam01.MyStudy.comment.dto.CommentDto;
 import com.nnam01.MyStudy.comment.dto.CommentListDto;
+import com.nnam01.MyStudy.comment.dto.CommentRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,7 +13,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,7 +82,7 @@ public interface CommentApi {
               content = {
                   @Content(
                       mediaType = "application/json",
-                      schema = @Schema(implementation = CommentRequestDto.class))
+                      schema = @Schema(implementation = CommentDto.class))
               }),
           @ApiResponse(
               responseCode = "400",
@@ -162,13 +164,8 @@ public interface CommentApi {
   @ApiResponses(
       value = {
           @ApiResponse(
-              responseCode = "200",
-              description = "OK",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = Void.class))
-              }),
+              responseCode = "204",
+              description = "No Content"),
           @ApiResponse(
               responseCode = "400",
               description = "Bad Request",
@@ -197,7 +194,7 @@ public interface CommentApi {
               }
           )
       })
-  @PostMapping("/{commentId}")
+  @PatchMapping("/{commentId}")
   ResponseEntity<Void> updateComment(
       @PathVariable Long commentId,
       @RequestBody(required = true) CommentRequestDto request);
@@ -237,9 +234,8 @@ public interface CommentApi {
               }
           )
       })
-  @GetMapping("/{commentId}/delete")
+  @DeleteMapping("/{commentId}")
   ResponseEntity<Void> deleteComment(
       @PathVariable Long commentId,
       @RequestBody(required = true) CommentRequestDto request);
-
 }
