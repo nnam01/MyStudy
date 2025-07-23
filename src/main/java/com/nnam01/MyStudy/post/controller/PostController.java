@@ -39,14 +39,11 @@ public class PostController implements PostApi {
     @Override
     public ResponseEntity<PostDto> getPost(Long postId) {
         PostDto postDto = postService.getPostById(postId);
-        if (postDto == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(postDto);
     }
 
     @Override
     public ResponseEntity<PostListDto> getPostList() {
-        return null;
+        return ResponseEntity.ok(postService.getPostList());
     }
 }

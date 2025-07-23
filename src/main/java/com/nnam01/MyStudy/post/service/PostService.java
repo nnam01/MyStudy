@@ -2,11 +2,13 @@ package com.nnam01.MyStudy.post.service;
 
 import com.nnam01.MyStudy.post.domain.Post;
 import com.nnam01.MyStudy.post.dto.PostDto;
+import com.nnam01.MyStudy.post.dto.PostListDto;
 import com.nnam01.MyStudy.post.dto.PostRequestDto;
 import com.nnam01.MyStudy.post.mapper.PostDtoMapper;
 import com.nnam01.MyStudy.post.repository.PostRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +38,6 @@ public class PostService {
             .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
-        post.setAuthorId(request.getAuthorId());
         post.setModifiedAt(LocalDateTime.now());
         return postDtoMapper.toDto(postRepository.save(post));
 
@@ -44,8 +45,15 @@ public class PostService {
 
     @Transactional
     public void deletePost(Long id) {
-        Post post = postRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
+        if (!postRepository.existsById(id)) {
+            throw new EntityNotFoundException("Post not found with id: " + id);
+        }
         postRepository.deleteById(id);
+    }
+
+
+    public PostListDto getPostList() {
+        //임시: 아직 미구현
+        return new PostListDto( Collections.emptyList());
     }
 }

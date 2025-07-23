@@ -2,6 +2,7 @@ package com.nnam01.MyStudy.comment.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,12 +16,14 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "comments")
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class) // 시간 자동 설정
 @DynamicUpdate // 변경된 필드만 업데이트
 @SQLRestriction("deleted = false") // 삭제되지 않은 것만 조회
 @SQLDelete(sql = "UPDATE comments SET deleted = true WHERE id = ?") // Delete를 deleted 플래그를 true로 대신

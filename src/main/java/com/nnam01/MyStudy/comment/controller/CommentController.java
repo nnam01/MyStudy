@@ -22,7 +22,7 @@ public class CommentController implements CommentApi {
     public ResponseEntity<Void> createComment(Long postId, CommentRequestDto request) {
         Comment comment = commentService.createComment(postId, request.getAuthorId(),
             request.getContent());
-        return ResponseEntity.created(URI.create("/api/comments/post/"+comment.getId())).build();
+        return ResponseEntity.created(URI.create("/api/comments/"+comment.getId())).build();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class CommentController implements CommentApi {
     }
 
     @Override
-    public ResponseEntity<Void> deleteComment(Long commentId, CommentRequestDto request) {
+    public ResponseEntity<Void> deleteComment(Long commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity.noContent().build();
     }

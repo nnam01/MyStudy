@@ -8,6 +8,7 @@ import com.nnam01.MyStudy.comment.mapper.CommentDtoMapper;
 import com.nnam01.MyStudy.comment.repository.CommentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,14 +42,14 @@ public class CommentService {
     public CommentListDto getCommentListByPostId(Long postId) {
         List<Comment> comments = commentRepository.findByPostId(postId);
         if (comments.isEmpty()) {
-            throw new EntityNotFoundException("No comments found for post ID: " + postId);
+            return new CommentListDto(Collections.emptyList());
         }
         return commentDtoMapper.toCommentListDto(comments);
     }
 
     public CommentDto getCommentById(Long commentId) {
         Comment comment =commentRepository.findById(commentId)
-            .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Comment not found with id: " + commentId));
         return commentDtoMapper.toDto(comment);
     }
 }

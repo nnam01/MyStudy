@@ -1,5 +1,6 @@
 package com.nnam01.MyStudy.user.controller;
 
+import com.nnam01.MyStudy.user.domain.User;
 import com.nnam01.MyStudy.user.dto.UserRequestDto;
 import com.nnam01.MyStudy.user.service.UserService;
 import com.nnam01.MyStudy.user.spec.UserApi;
@@ -18,7 +19,8 @@ public class UserController implements UserApi {
 
     @Override
     public ResponseEntity<Void> createUser(UserRequestDto requestDto) {
-        userService.createUser(requestDto.getUsername(), requestDto.getPassword(), requestDto.getEmail(), requestDto.getImageUrl());
-        return ResponseEntity.created(URI.create("/api/users/")).build();
+        User user = userService.createUser(requestDto.getUsername(), requestDto.getPassword(),
+            requestDto.getEmail(), requestDto.getImageUrl());
+        return ResponseEntity.created(URI.create("/api/users/"+user.getId())).build();
     }
 }

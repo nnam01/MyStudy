@@ -23,7 +23,6 @@ public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandle
     problemDetail.setType(URI.create("about:blank"));
     problemDetail.setTitle("Not Found");
     problemDetail.setInstance(URI.create(request.getContextPath()));
-    problemDetail.setDetail(e.getMessage());
 
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
   }

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Comment API", description = "댓글 관련 API")
 @RequestMapping("/api/comments")
@@ -69,7 +68,7 @@ public interface CommentApi {
       })
   @PostMapping("/post/{postId}")
   ResponseEntity<Void> createComment(
-      @RequestParam Long postId,
+      @PathVariable Long postId,
       @RequestBody(required = true) CommentRequestDto request);
 
   @Operation(summary = "댓글 단건 조회", description = "댓글 id를 통해 단건 조회 생성합니다.")
@@ -235,7 +234,5 @@ public interface CommentApi {
           )
       })
   @DeleteMapping("/{commentId}")
-  ResponseEntity<Void> deleteComment(
-      @PathVariable Long commentId,
-      @RequestBody(required = true) CommentRequestDto request);
+  ResponseEntity<Void> deleteComment(@PathVariable Long commentId);
 }
