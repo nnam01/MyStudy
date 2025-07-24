@@ -16,7 +16,7 @@ public class UserService {
 
     @Transactional
     public User createUser(String username, String password, String email, String imageUrl) {
-        User user = new User(username, password, email, imageUrl);
+        User user = new User(username, email, imageUrl);
         if (username == null || username.isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty");
         }

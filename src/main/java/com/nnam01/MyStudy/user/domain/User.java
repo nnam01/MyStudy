@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class User {
     private String password;
 
     @Column(nullable = false, unique = true, length = 50)
+    @Email
     private String email;
 
     @Column(name = "image_url", length = 255)
@@ -55,9 +57,8 @@ public class User {
     @Column(nullable = false)
     private Boolean deleted = false;
 
-    public User(String username, String password, String email, String imageUrl) {
+    public User(String username, String email, String imageUrl) {
         this.username = username;
-        this.password = password;
         this.email = email;
         this.imageUrl = imageUrl;
         this.createdAt = LocalDateTime.now();
