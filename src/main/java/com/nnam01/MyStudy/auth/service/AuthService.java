@@ -1,0 +1,56 @@
+package com.nnam01.MyStudy.auth.service;
+
+import com.nnam01.MyStudy.auth.domain.RefreshToken;
+import com.nnam01.MyStudy.auth.dto.AuthRequestDto;
+import com.nnam01.MyStudy.auth.dto.AuthResponseDto;
+import com.nnam01.MyStudy.auth.dto.RefreshRequestDto;
+import com.nnam01.MyStudy.auth.dto.RefreshResponseDto;
+import com.nnam01.MyStudy.auth.repository.RefreshTokenRepository;
+import com.nnam01.MyStudy.config.security.BCryptEncoder;
+import com.nnam01.MyStudy.config.security.jwt.TokenProvider;
+import com.nnam01.MyStudy.user.domain.User;
+import com.nnam01.MyStudy.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+  private final UserRepository userRepository;
+  private  final RefreshTokenRepository refreshTokenRepository;
+  private final BCryptEncoder bCryptEncoder;
+  private final TokenProvider tokenProvider;
+
+  public AuthResponseDto login(AuthRequestDto authRequestDto) {
+    User user = userRepository.findByEmail(authRequestDto.getEmail())
+        .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+    if (!bCryptEncoder.matches(authRequestDto.getPassword(), user.getPassword())) {
+      throw new RuntimeException();
+    }
+    String accessToken = tokenProvider.generateAccessToken(user.getId());
+    String refreshToken = tokenProvider.generateRefreshToken(user.getId());
+    refreshTokenRepository.save(new RefreshToken(user.getId(), refreshToken));
+    return new AuthResponseDto(accessToken, refreshToken);
+  }
+
+  public RefreshResponseDto refresh(RefreshRequestDto requestDto) {
+    String refreshToken = requestDto.getRefreshToken();
+
+    if(!tokenProvider.validateToken(refreshToken)) {
+      throw new RuntimeException("유효하지 않은 토큰입니다.");
+    }
+
+    Long userId = tokenProvider.getUserIdFromToken(refreshToken);
+
+    RefreshToken saved = refreshTokenRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("존재하지 않는 리프레쉬 토큰입니다."));
+
+    if(!saved.getToken().equals(refreshToken)) {
+      throw new RuntimeException("리프레쉬 토큰이 일치하지 않습니다.");
+    }
+    String newAccessToken = tokenProvider.generateAccessToken(userId);
+    return new RefreshResponseDto(newAccessToken);
+  }
+}

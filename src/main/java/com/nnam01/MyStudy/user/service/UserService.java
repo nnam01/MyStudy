@@ -2,6 +2,7 @@ package com.nnam01.MyStudy.user.service;
 
 import com.nnam01.MyStudy.config.security.BCryptEncoder;
 import com.nnam01.MyStudy.user.domain.User;
+import com.nnam01.MyStudy.user.dto.UserDto;
 import com.nnam01.MyStudy.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,14 @@ public class UserService {
         if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Email already exists");
         }
-
         user.setPassword(bCryptEncoder.encodePassword(password));
         return userRepository.save(user);
     }
 
+    public UserDto getMyInfo(Long userId) {
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return new UserDto (user.getId(), user.getUsername(), user.getEmail(), user.getImageUrl(),
+            user.getCreatedAt().toString(), user.getModifiedAt().toString());
+    }
 }
