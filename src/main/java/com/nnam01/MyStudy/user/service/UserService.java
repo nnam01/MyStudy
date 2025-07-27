@@ -1,6 +1,7 @@
 package com.nnam01.MyStudy.user.service;
 
 import com.nnam01.MyStudy.config.security.BCryptEncoder;
+import com.nnam01.MyStudy.global.exception.UnauthorizedException;
 import com.nnam01.MyStudy.user.domain.User;
 import com.nnam01.MyStudy.user.dto.UserDto;
 import com.nnam01.MyStudy.user.repository.UserRepository;
@@ -38,6 +39,9 @@ public class UserService {
     }
 
     public UserDto getMyInfo(Long userId) {
+        if (userId == null) {
+            throw new UnauthorizedException("로그인이 필요합니다.");
+        }
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
         return new UserDto (user.getId(), user.getUsername(), user.getEmail(), user.getImageUrl(),

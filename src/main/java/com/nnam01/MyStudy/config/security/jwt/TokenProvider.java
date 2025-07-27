@@ -1,5 +1,6 @@
 package com.nnam01.MyStudy.config.security.jwt;
 
+import com.nnam01.MyStudy.global.exception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -60,8 +61,8 @@ public class TokenProvider {
           .build()
           .parseSignedClaims(token);
       return true;
-    } catch (JwtException | IllegalArgumentException e) {
-      return false;
+    } catch (JwtException | IllegalArgumentException e ) {
+      throw new UnauthorizedException("유효하지 않은 토큰입니다.");
     }
   }
 
@@ -74,6 +75,10 @@ public class TokenProvider {
   }
 
   public Long getUserIdFromToken(String token) {
-    return getClaims(token).get("id", Long.class);
+    try {
+      return getClaims(token).get("id", Long.class);
+    } catch (JwtException e) {
+      throw new UnauthorizedException("유효하지 않은 토큰입니다.");
+    }
   }
 }

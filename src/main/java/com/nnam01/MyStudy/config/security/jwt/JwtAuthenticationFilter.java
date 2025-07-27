@@ -1,5 +1,6 @@
 package com.nnam01.MyStudy.config.security.jwt;
 
+import com.nnam01.MyStudy.global.exception.UnauthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +27,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       FilterChain filterChain) throws ServletException, IOException {
     String token = resolveToken(request);
 
-    if(token != null) {
-      Long userId = tokenProvider.getUserIdFromToken(token);
-      request.setAttribute("userId", userId);
-      UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-          userId, null, List.of());
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
+    try {
+      if (token != null) {
+        Long userId = tokenProvider.getUserIdFromToken(token);
+        request.setAttribute("userId", userId);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+            userId, null, List.of());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+      }
       filterChain.doFilter(request, response);
+    } catch (UnauthorizedException e) {
+      response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+      response.setContentType("application/json;charset=UTF-8");
+      response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"" + e.getMessage() + "\"}");
+      response.getWriter().flush();
+    }
   }
 
   private String resolveToken(HttpServletRequest request) {
