@@ -13,8 +13,46 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandler {
 
+  // Bad Request 400
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ProblemDetail> handleException(IllegalArgumentException e, WebRequest request) {
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
 
-  // 404 Not Found 예외 처리
+    problemDetail.setType(URI.create("about:blank"));
+    problemDetail.setTitle("Bad Request");
+    problemDetail.setInstance(URI.create(request.getContextPath()));
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+  }
+
+  // Unauthorized 401
+  @ExceptionHandler(UnauthorizedException.class)
+  public ResponseEntity<ProblemDetail> handleException(UnauthorizedException e, WebRequest request) {
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
+
+    problemDetail.setType(URI.create("about:blank"));
+    problemDetail.setTitle("Unauthorized");
+    problemDetail.setInstance(URI.create(request.getContextPath()));
+
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+  }
+
+  // Forbidden 403
+  @ExceptionHandler(ForbiddenException.class)
+  public ResponseEntity<ProblemDetail> handleException(ForbiddenException e, WebRequest request) {
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+
+    problemDetail.setType(URI.create("about:blank"));
+    problemDetail.setTitle("Forbidden");
+    problemDetail.setInstance(URI.create(request.getContextPath()));
+
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problemDetail);
+  }
+
+  // Not Found 404
   @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<ProblemDetail> handleException(EntityNotFoundException e, WebRequest request) {
     ProblemDetail problemDetail =
@@ -32,5 +70,4 @@ public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandle
   public ResponseEntity<Object> handleException(RuntimeException e, WebRequest request) {
     return this.handleExceptionInternal(e, null, null, HttpStatus.INTERNAL_SERVER_ERROR, request);
   }
-
 }

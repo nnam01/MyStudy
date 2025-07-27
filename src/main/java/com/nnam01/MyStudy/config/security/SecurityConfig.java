@@ -1,17 +1,26 @@
 package com.nnam01.MyStudy.config.security;
 
+import com.nnam01.MyStudy.config.security.jwt.JwtAuthenticationEntryPoint;
+import com.nnam01.MyStudy.config.security.jwt.JwtAuthenticationFilter;
 import jakarta.servlet.DispatcherType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
   private static final String[] WHITELIST = {
-      "/**"  // 전체 URI 허용 (특정 URI만 허용하려면 여기에 개별 경로나 패턴 배열 작성)
+      "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**" ,"/**"
   };
 
   @Bean
@@ -23,8 +32,13 @@ public class SecurityConfig {
             .anyRequest().authenticated()
         )
         .csrf(csrf -> csrf.disable()) // CSRF 비활성화 (필요할 때만)
-        .httpBasic(Customizer.withDefaults()) // 기본 인증 활성화 또는 disable() 가능
-        .formLogin(Customizer.withDefaults());
+        .httpBasic(AbstractHttpConfigurer::disable) // 기본 인증 활성화 또는 disable() 가능
+        .formLogin(AbstractHttpConfigurer::disable)
+        .sessionManagement(session -> session
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .exceptionHandling(exception -> exception
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint))
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
