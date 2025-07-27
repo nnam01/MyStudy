@@ -13,6 +13,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandler {
 
+  // Bad Request 400
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ProblemDetail> handleException(IllegalArgumentException e, WebRequest request) {
+    ProblemDetail problemDetail =
+        ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+
+    problemDetail.setType(URI.create("about:blank"));
+    problemDetail.setTitle("Bad Request");
+    problemDetail.setInstance(URI.create(request.getContextPath()));
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+  }
+
   // Unauthorized 401
   @ExceptionHandler(UnauthorizedException.class)
   public ResponseEntity<ProblemDetail> handleException(UnauthorizedException e, WebRequest request) {

@@ -1,5 +1,6 @@
 package com.nnam01.MyStudy.config.security;
 
+import com.nnam01.MyStudy.config.security.jwt.JwtAuthenticationEntryPoint;
 import com.nnam01.MyStudy.config.security.jwt.JwtAuthenticationFilter;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthenticationFilter;
+  private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
   private static final String[] WHITELIST = {
       "/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**" ,"/**"
@@ -34,6 +36,8 @@ public class SecurityConfig {
         .formLogin(AbstractHttpConfigurer::disable)
         .sessionManagement(session -> session
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .exceptionHandling(exception -> exception
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint))
         .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

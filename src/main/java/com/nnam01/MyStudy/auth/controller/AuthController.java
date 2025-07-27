@@ -32,10 +32,7 @@ public class AuthController implements AuthApi {
 
   @Override
   public ResponseEntity<Void> logout(Long userId) {
-    if (!refreshTokenRepository.existsById(userId)) {
-      return ResponseEntity.notFound().build();
-    }
-    refreshTokenRepository.deleteById(userId);
+    authService.logout(userId);
     return ResponseEntity.noContent().build();
   }
 }

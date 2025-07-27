@@ -40,10 +40,7 @@ public class AuthService {
 
   public RefreshResponseDto refresh(RefreshRequestDto requestDto) {
     String refreshToken = requestDto.getRefreshToken();
-
-    if(!tokenProvider.validateToken(refreshToken)) {
-      throw new UnauthorizedException("유효하지 않은 토큰입니다.");
-    }
+    tokenProvider.validateToken(refreshToken);
 
     Long userId = tokenProvider.getUserIdFromToken(refreshToken);
 
@@ -51,11 +48,16 @@ public class AuthService {
         .orElseThrow(() -> new UnauthorizedException("존재하지 않는 리프레쉬 토큰입니다."));
 
     if(!saved.getToken().equals(refreshToken)) {
-      System.out.println("["+saved.getToken()+"]");
-      System.out.println("["+refreshToken+"]");
       throw new UnauthorizedException("리프레쉬 토큰이 일치하지 않습니다.");
     }
     String newAccessToken = tokenProvider.generateAccessToken(userId);
     return new RefreshResponseDto(newAccessToken);
+  }
+
+  public void logout(Long userId) {
+    if (!refreshTokenRepository.existsById(userId)) {
+      throw new UnauthorizedException("로그아웃할 사용자가 존재하지 않습니다.");
+    }
+    refreshTokenRepository.deleteById(userId);
   }
 }

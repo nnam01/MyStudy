@@ -18,9 +18,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TokenProvider {
 
-  private static final long ACCESS_TOKEN_EXPIRATION = 10 * 60 * 1000; // 10분
-  private static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60 * 1000; // 7일
-
   private final JwtProperties jwtProperties;
   private Key secretKey;
 
@@ -31,11 +28,11 @@ public class TokenProvider {
   }
 
   public String generateAccessToken(Long id) {
-    return generateToken(id, ACCESS_TOKEN_EXPIRATION, "access_token");
+    return generateToken(id, jwtProperties.getAccessTokenTime(), "access_token");
   }
 
   public String generateRefreshToken(Long id) {
-    return generateToken(id, REFRESH_TOKEN_EXPIRATION, "refresh_token");
+    return generateToken(id, jwtProperties.getRefreshTokenTime(), "refresh_token");
   }
 
   private String generateToken(Long id, long expirationTime, String subject) {
@@ -54,13 +51,12 @@ public class TokenProvider {
         .compact(); // JWT 최종 문자열 생성
   }
 
-  public boolean validateToken(String token){
+  public void validateToken(String token){
     try {
       Jwts.parser()
           .verifyWith((SecretKey) secretKey)
           .build()
           .parseSignedClaims(token);
-      return true;
     } catch (JwtException | IllegalArgumentException e ) {
       throw new UnauthorizedException("유효하지 않은 토큰입니다.");
     }

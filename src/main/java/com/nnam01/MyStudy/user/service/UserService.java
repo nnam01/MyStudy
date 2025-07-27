@@ -5,6 +5,7 @@ import com.nnam01.MyStudy.global.exception.UnauthorizedException;
 import com.nnam01.MyStudy.user.domain.User;
 import com.nnam01.MyStudy.user.dto.UserDto;
 import com.nnam01.MyStudy.user.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class UserService {
         if (password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
         }
-        if (email == null || email.isEmpty()|| !email.contains("@")) {
+        if (email == null || !email.contains("@")) {
             throw new IllegalArgumentException("This is not a valid email address");
         }
         if (userRepository.existsByEmail(email)) {
@@ -43,8 +44,8 @@ public class UserService {
             throw new UnauthorizedException("로그인이 필요합니다.");
         }
         User user = userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
         return new UserDto (user.getId(), user.getUsername(), user.getEmail(), user.getImageUrl(),
-            user.getCreatedAt().toString(), user.getModifiedAt().toString());
+            user.getCreatedAt(), user.getModifiedAt());
     }
 }
