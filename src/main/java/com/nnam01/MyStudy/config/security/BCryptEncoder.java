@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BCryptEncoder {
-  BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder(5); // 임시: 강도는 5로 설정
+  BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder(10);
 
   public String encodePassword(String rawPassword) {
     return bCryptEncoder.encode(rawPassword);
