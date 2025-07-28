@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: MyStudy
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/MYSTUDY
+    username: ${AWS_DB_ID}
+    password: ${AWS_DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+jwt:
+  issuer: ${JWT_ISSUER}
+  secret: ${JWT_SECRET}
+  access-token-time: 600000
+  refresh-token-time: 1209600000
