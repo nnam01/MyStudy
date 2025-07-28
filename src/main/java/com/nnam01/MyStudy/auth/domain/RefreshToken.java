@@ -13,8 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RefreshToken {
 
-  @Id
-  private Long userId;
+  @Id private Long userId;
 
   @Column(nullable = false, length = 512)
   private String token;

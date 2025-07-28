@@ -28,36 +28,36 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @SQLRestriction("deleted = false") // 삭제되지 않은 것만 조회
 @SQLDelete(sql = "UPDATE comments SET deleted = true WHERE id = ?") // Delete를 deleted 플래그를 true로 대신
 public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "post_id", nullable = false)
-    private Long postId;
+  @Column(name = "post_id", nullable = false)
+  private Long postId;
 
-    @Column(name = "author_id", nullable = false)
-    private Long authorId;
+  @Column(name = "author_id", nullable = false)
+  private Long authorId;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+  @Column(nullable = false, columnDefinition = "TEXT")
+  private String content;
 
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+  @CreatedDate
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
+  @LastModifiedDate
+  @Column(name = "modified_at")
+  private LocalDateTime modifiedAt;
 
-    @Column(nullable = false)
-    private Boolean deleted = false;
+  @Column(nullable = false)
+  private Boolean deleted = false;
 
-    public Comment(Long postId, Long authorId, String content) {
-        this.postId = postId;
-        this.authorId = authorId;
-        this.content = content;
-        this.createdAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
-        this.deleted = false;
-    }
+  public Comment(Long postId, Long authorId, String content) {
+    this.postId = postId;
+    this.authorId = authorId;
+    this.content = content;
+    this.createdAt = LocalDateTime.now();
+    this.modifiedAt = LocalDateTime.now();
+    this.deleted = false;
+  }
 }

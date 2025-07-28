@@ -15,7 +15,8 @@ public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandle
 
   // Bad Request 400
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<ProblemDetail> handleException(IllegalArgumentException e, WebRequest request) {
+  public ResponseEntity<ProblemDetail> handleException(
+      IllegalArgumentException e, WebRequest request) {
     ProblemDetail problemDetail =
         ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
 
@@ -28,7 +29,8 @@ public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandle
 
   // Unauthorized 401
   @ExceptionHandler(UnauthorizedException.class)
-  public ResponseEntity<ProblemDetail> handleException(UnauthorizedException e, WebRequest request) {
+  public ResponseEntity<ProblemDetail> handleException(
+      UnauthorizedException e, WebRequest request) {
     ProblemDetail problemDetail =
         ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, e.getMessage());
 
@@ -54,7 +56,8 @@ public class ProblemDetailExceptionHandler extends ResponseEntityExceptionHandle
 
   // Not Found 404
   @ExceptionHandler(EntityNotFoundException.class)
-  public ResponseEntity<ProblemDetail> handleException(EntityNotFoundException e, WebRequest request) {
+  public ResponseEntity<ProblemDetail> handleException(
+      EntityNotFoundException e, WebRequest request) {
     ProblemDetail problemDetail =
         ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
 

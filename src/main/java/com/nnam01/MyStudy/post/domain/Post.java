@@ -27,38 +27,37 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate // 변경된 필드만 업데이트
 @SQLRestriction("deleted = false") // 삭제되지 않은 것만 조회
 @SQLDelete(sql = "UPDATE posts SET deleted = true WHERE id = ?") // Delete를 deleted 플래그를 true로 대신
-
 public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String title;
+  @Column(nullable = false, length = 200)
+  private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+  @Column(nullable = false, columnDefinition = "TEXT")
+  private String content;
 
-    @Column(name = "author_id", nullable = false)
-    private Long authorId;
+  @Column(name = "author_id", nullable = false)
+  private Long authorId;
 
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+  @CreatedDate
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
+  @LastModifiedDate
+  @Column(name = "modified_at")
+  private LocalDateTime modifiedAt;
 
-    @Column(nullable = false)
-    private Boolean deleted = false;
+  @Column(nullable = false)
+  private Boolean deleted = false;
 
-    public Post(String title, String content, Long authorId) {
-        this.title = title;
-        this.content = content;
-        this.authorId = authorId;
-        this.createdAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
-        this.deleted = false;
-    }
+  public Post(String title, String content, Long authorId) {
+    this.title = title;
+    this.content = content;
+    this.authorId = authorId;
+    this.createdAt = LocalDateTime.now();
+    this.modifiedAt = LocalDateTime.now();
+    this.deleted = false;
+  }
 }

@@ -16,34 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
 public class CommentController implements CommentApi {
-    private final CommentService commentService;
+  private final CommentService commentService;
 
-    @Override
-    public ResponseEntity<Void> createComment(Long postId, CommentRequestDto request) {
-        Comment comment = commentService.createComment(postId, request.getAuthorId(),
-            request.getContent());
-        return ResponseEntity.created(URI.create("/api/comments/"+comment.getId())).build();
-    }
+  @Override
+  public ResponseEntity<Void> createComment(Long postId, CommentRequestDto request) {
+    Comment comment =
+        commentService.createComment(postId, request.getAuthorId(), request.getContent());
+    return ResponseEntity.created(URI.create("/api/comments/" + comment.getId())).build();
+  }
 
-    @Override
-    public ResponseEntity<CommentDto> getCommentById(Long commentId) {
-        return ResponseEntity.ok(commentService.getCommentById(commentId));
-    }
+  @Override
+  public ResponseEntity<CommentDto> getCommentById(Long commentId) {
+    return ResponseEntity.ok(commentService.getCommentById(commentId));
+  }
 
-    @Override
-    public ResponseEntity<CommentListDto> getCommentListByPostId(Long postId) {
-        return ResponseEntity.ok(commentService.getCommentListByPostId(postId));
-    }
+  @Override
+  public ResponseEntity<CommentListDto> getCommentListByPostId(Long postId) {
+    return ResponseEntity.ok(commentService.getCommentListByPostId(postId));
+  }
 
-    @Override
-    public ResponseEntity<Void> updateComment(Long commentId, CommentRequestDto request) {
-        commentService.updateComment(commentId, request);
-        return ResponseEntity.noContent().build();
-    }
+  @Override
+  public ResponseEntity<Void> updateComment(Long commentId, CommentRequestDto request) {
+    commentService.updateComment(commentId, request);
+    return ResponseEntity.noContent().build();
+  }
 
-    @Override
-    public ResponseEntity<Void> deleteComment(Long commentId) {
-        commentService.deleteComment(commentId);
-        return ResponseEntity.noContent().build();
-    }
+  @Override
+  public ResponseEntity<Void> deleteComment(Long commentId) {
+    commentService.deleteComment(commentId);
+    return ResponseEntity.noContent().build();
+  }
 }

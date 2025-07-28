@@ -16,18 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController implements UserApi {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @Override
-    public ResponseEntity<Void> createUser(UserRequestDto requestDto) {
-        User user = userService.createUser(requestDto.getUsername(), requestDto.getPassword(),
-            requestDto.getEmail(), requestDto.getImageUrl());
-        return ResponseEntity.created(URI.create("/api/users/"+user.getId())).build();
-    }
+  @Override
+  public ResponseEntity<Void> createUser(UserRequestDto requestDto) {
+    User user =
+        userService.createUser(
+            requestDto.getUsername(),
+            requestDto.getPassword(),
+            requestDto.getEmail(),
+            requestDto.getImageUrl());
+    return ResponseEntity.created(URI.create("/api/users/" + user.getId())).build();
+  }
 
-    @Override
-    public ResponseEntity<UserDto> getMyInfo(Long userId) {
-        return ResponseEntity.ok(userService.getMyInfo(userId));
-    }
-
+  @Override
+  public ResponseEntity<UserDto> getMyInfo(Long userId) {
+    return ResponseEntity.ok(userService.getMyInfo(userId));
+  }
 }

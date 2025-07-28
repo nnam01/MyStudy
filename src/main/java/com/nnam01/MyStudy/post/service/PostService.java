@@ -16,44 +16,46 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class PostService {
-    private final PostRepository postRepository;
-    private final PostDtoMapper postDtoMapper;
+  private final PostRepository postRepository;
+  private final PostDtoMapper postDtoMapper;
 
-    @Transactional
-    public PostDto createPost(String title, String content, Long authorId) {
-        Post post = postRepository.save(new Post(title, content, authorId));
-        return postDtoMapper.toDto(post);
-    }
+  @Transactional
+  public PostDto createPost(String title, String content, Long authorId) {
+    Post post = postRepository.save(new Post(title, content, authorId));
+    return postDtoMapper.toDto(post);
+  }
 
-    @Transactional(readOnly = true)
-    public PostDto getPostById(Long id) {
-        Post post = postRepository.findById(id)
+  @Transactional(readOnly = true)
+  public PostDto getPostById(Long id) {
+    Post post =
+        postRepository
+            .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
-        return postDtoMapper.toDto(post);
-    }
+    return postDtoMapper.toDto(post);
+  }
 
-    @Transactional
-    public PostDto updatePost(Long id, PostRequestDto request) {
-        Post post = postRepository.findById(id)
+  @Transactional
+  public PostDto updatePost(Long id, PostRequestDto request) {
+    Post post =
+        postRepository
+            .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Post not found with id: " + id));
-        post.setTitle(request.getTitle());
-        post.setContent(request.getContent());
-        post.setModifiedAt(LocalDateTime.now());
-        return postDtoMapper.toDto(postRepository.save(post));
+    post.setTitle(request.getTitle());
+    post.setContent(request.getContent());
+    post.setModifiedAt(LocalDateTime.now());
+    return postDtoMapper.toDto(postRepository.save(post));
+  }
 
+  @Transactional
+  public void deletePost(Long id) {
+    if (!postRepository.existsById(id)) {
+      throw new EntityNotFoundException("Post not found with id: " + id);
     }
+    postRepository.deleteById(id);
+  }
 
-    @Transactional
-    public void deletePost(Long id) {
-        if (!postRepository.existsById(id)) {
-            throw new EntityNotFoundException("Post not found with id: " + id);
-        }
-        postRepository.deleteById(id);
-    }
-
-
-    public PostListDto getPostList() {
-        //임시: 아직 미구현
-        return new PostListDto( Collections.emptyList());
-    }
+  public PostListDto getPostList() {
+    // 임시: 아직 미구현
+    return new PostListDto(Collections.emptyList());
+  }
 }
