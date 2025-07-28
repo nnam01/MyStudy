@@ -29,40 +29,40 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @SQLRestriction("deleted = false") // 삭제되지 않은 것만 조회
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?") // Delete를 deleted 플래그를 true로 대신
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(nullable = false, unique = true, length = 20)
-    private String username;
+  @Column(nullable = false, unique = true, length = 20)
+  private String username;
 
-    @Column(nullable = false, length = 70)
-    private String password;
+  @Column(nullable = false, length = 70)
+  private String password;
 
-    @Column(nullable = false, unique = true, length = 50)
-    @Email
-    private String email;
+  @Column(nullable = false, unique = true, length = 50)
+  @Email
+  private String email;
 
-    @Column(name = "image_url", length = 255)
-    private String imageUrl;
+  @Column(name = "image_url", length = 255)
+  private String imageUrl;
 
-    @CreatedDate
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+  @CreatedDate
+  @Column(name = "created_at")
+  private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
+  @LastModifiedDate
+  @Column(name = "modified_at")
+  private LocalDateTime modifiedAt;
 
-    @Column(nullable = false)
-    private Boolean deleted = false;
+  @Column(nullable = false)
+  private Boolean deleted = false;
 
-    public User(String username, String email, String imageUrl) {
-        this.username = username;
-        this.email = email;
-        this.imageUrl = imageUrl;
-        this.createdAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
-        this.deleted = false;
-    }
+  public User(String username, String email, String imageUrl) {
+    this.username = username;
+    this.email = email;
+    this.imageUrl = imageUrl;
+    this.createdAt = LocalDateTime.now();
+    this.modifiedAt = LocalDateTime.now();
+    this.deleted = false;
+  }
 }

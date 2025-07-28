@@ -15,5 +15,4 @@ public class PostDto {
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
   private Boolean deleted;
-
 }

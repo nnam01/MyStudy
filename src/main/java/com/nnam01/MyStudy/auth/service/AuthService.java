@@ -20,13 +20,15 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
   private final UserRepository userRepository;
-  private  final RefreshTokenRepository refreshTokenRepository;
+  private final RefreshTokenRepository refreshTokenRepository;
   private final BCryptEncoder bCryptEncoder;
   private final TokenProvider tokenProvider;
 
   public AuthResponseDto login(AuthRequestDto authRequestDto) {
-    User user = userRepository.findByEmail(authRequestDto.getEmail())
-        .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
+    User user =
+        userRepository
+            .findByEmail(authRequestDto.getEmail())
+            .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다."));
 
     if (!bCryptEncoder.matches(authRequestDto.getPassword(), user.getPassword())) {
       throw new UnauthorizedException("비밀번호가 일치하지 않습니다.");
@@ -44,10 +46,12 @@ public class AuthService {
 
     Long userId = tokenProvider.getUserIdFromToken(refreshToken);
 
-    RefreshToken saved = refreshTokenRepository.findById(userId)
-        .orElseThrow(() -> new UnauthorizedException("존재하지 않는 리프레쉬 토큰입니다."));
+    RefreshToken saved =
+        refreshTokenRepository
+            .findById(userId)
+            .orElseThrow(() -> new UnauthorizedException("존재하지 않는 리프레쉬 토큰입니다."));
 
-    if(!saved.getToken().equals(refreshToken)) {
+    if (!saved.getToken().equals(refreshToken)) {
       throw new UnauthorizedException("리프레쉬 토큰이 일치하지 않습니다.");
     }
     String newAccessToken = tokenProvider.generateAccessToken(userId);

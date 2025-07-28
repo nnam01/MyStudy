@@ -17,39 +17,44 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private final CommentRepository commentRepository;
-    private final CommentDtoMapper commentDtoMapper;
+  private final CommentRepository commentRepository;
+  private final CommentDtoMapper commentDtoMapper;
 
-    public Comment createComment(Long postId, Long authorId, String content) {
-        return commentRepository.save(new Comment(postId, authorId, content));
-    }
+  public Comment createComment(Long postId, Long authorId, String content) {
+    return commentRepository.save(new Comment(postId, authorId, content));
+  }
 
-    @Transactional
-    public void updateComment(Long id, CommentRequestDto request) {
-        Comment comment = commentRepository.findById(id)
+  @Transactional
+  public void updateComment(Long id, CommentRequestDto request) {
+    Comment comment =
+        commentRepository
+            .findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Comment not found with id: " + id));
-        comment.setAuthorId(request.getAuthorId());
-        comment.setContent(request.getContent());
-        comment.setModifiedAt(LocalDateTime.now());
-        commentRepository.save(comment);
-    }
+    comment.setAuthorId(request.getAuthorId());
+    comment.setContent(request.getContent());
+    comment.setModifiedAt(LocalDateTime.now());
+    commentRepository.save(comment);
+  }
 
-    @Transactional
-    public void deleteComment(Long id) {
-        commentRepository.deleteById(id);
-    }
+  @Transactional
+  public void deleteComment(Long id) {
+    commentRepository.deleteById(id);
+  }
 
-    public CommentListDto getCommentListByPostId(Long postId) {
-        List<Comment> comments = commentRepository.findByPostId(postId);
-        if (comments.isEmpty()) {
-            return new CommentListDto(Collections.emptyList());
-        }
-        return commentDtoMapper.toCommentListDto(comments);
+  public CommentListDto getCommentListByPostId(Long postId) {
+    List<Comment> comments = commentRepository.findByPostId(postId);
+    if (comments.isEmpty()) {
+      return new CommentListDto(Collections.emptyList());
     }
+    return commentDtoMapper.toCommentListDto(comments);
+  }
 
-    public CommentDto getCommentById(Long commentId) {
-        Comment comment =commentRepository.findById(commentId)
-            .orElseThrow(() -> new EntityNotFoundException("Comment not found with id: " + commentId));
-        return commentDtoMapper.toDto(comment);
-    }
+  public CommentDto getCommentById(Long commentId) {
+    Comment comment =
+        commentRepository
+            .findById(commentId)
+            .orElseThrow(
+                () -> new EntityNotFoundException("Comment not found with id: " + commentId));
+    return commentDtoMapper.toDto(comment);
+  }
 }

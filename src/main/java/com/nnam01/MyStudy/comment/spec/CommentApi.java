@@ -30,86 +30,79 @@ public interface CommentApi {
   @Parameter(name = "postId", description = "댓글이 달릴 게시글의 ID", required = true)
   @ApiResponses(
       value = {
-          @ApiResponse(
-              responseCode = "201",
-              description = "Created",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = Void.class))
-              }),
-          @ApiResponse(
-              responseCode = "400",
-              description = "Bad Request",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "500",
-              description = "Internal Server Error",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          )
+        @ApiResponse(
+            responseCode = "201",
+            description = "Created",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = Void.class))
+            }),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            })
       })
   @PostMapping("/post/{postId}")
   ResponseEntity<Void> createComment(
-      @PathVariable Long postId,
-      @RequestBody(required = true) CommentRequestDto request);
+      @PathVariable Long postId, @RequestBody(required = true) CommentRequestDto request);
 
   @Operation(summary = "댓글 단건 조회", description = "댓글 id를 통해 단건 조회 생성합니다.")
   @Parameter(name = "commentId", description = "조회할 댓글의 ID", required = true)
   @ApiResponses(
       value = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "OK",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = CommentDto.class))
-              }),
-          @ApiResponse(
-              responseCode = "400",
-              description = "Bad Request",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "500",
-              description = "Internal Server Error",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          )
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = CommentDto.class))
+            }),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            })
       })
   @GetMapping("/{commentId}")
   ResponseEntity<CommentDto> getCommentById(@PathVariable Long commentId);
@@ -118,120 +111,105 @@ public interface CommentApi {
   @Parameter(name = "postId", description = "댓글을 조회할 게시글의 ID", required = true)
   @ApiResponses(
       value = {
-          @ApiResponse(
-              responseCode = "200",
-              description = "OK",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = CommentListDto.class))
-              }),
-          @ApiResponse(
-              responseCode = "400",
-              description = "Bad Request",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "500",
-              description = "Internal Server Error",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          )
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = CommentListDto.class))
+            }),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            })
       })
   @GetMapping("/post/{postId}")
-  ResponseEntity<CommentListDto> getCommentListByPostId(
-      @PathVariable Long postId);
+  ResponseEntity<CommentListDto> getCommentListByPostId(@PathVariable Long postId);
 
   @Operation(summary = "댓글 수정", description = "댓글을 수정합니다.")
   @Parameter(name = "commentId", description = "수정할 댓글의 ID", required = true)
   @ApiResponses(
       value = {
-          @ApiResponse(
-              responseCode = "204",
-              description = "No Content"),
-          @ApiResponse(
-              responseCode = "400",
-              description = "Bad Request",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "500",
-              description = "Internal Server Error",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          )
+        @ApiResponse(responseCode = "204", description = "No Content"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            })
       })
   @PatchMapping("/{commentId}")
   ResponseEntity<Void> updateComment(
-      @PathVariable Long commentId,
-      @RequestBody(required = true) CommentRequestDto request);
+      @PathVariable Long commentId, @RequestBody(required = true) CommentRequestDto request);
 
   @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.")
   @Parameter(name = "commentId", description = "삭제할 댓글의 ID", required = true)
   @ApiResponses(
       value = {
-          @ApiResponse(
-              responseCode = "204",
-              description = "No Content"),
-          @ApiResponse(
-              responseCode = "400",
-              description = "Bad Request",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "404",
-              description = "Not Found",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          ),
-          @ApiResponse(
-              responseCode = "500",
-              description = "Internal Server Error",
-              content = {
-                  @Content(
-                      mediaType = "application/json",
-                      schema = @Schema(implementation = ProblemDetail.class))
-              }
-          )
+        @ApiResponse(responseCode = "204", description = "No Content"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Bad Request",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Not Found",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            }),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ProblemDetail.class))
+            })
       })
   @DeleteMapping("/{commentId}")
   ResponseEntity<Void> deleteComment(@PathVariable Long commentId);

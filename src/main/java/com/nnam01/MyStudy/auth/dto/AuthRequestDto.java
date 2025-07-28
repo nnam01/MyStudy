@@ -9,5 +9,3 @@ public class AuthRequestDto {
   String email;
   String password;
 }
-
-
