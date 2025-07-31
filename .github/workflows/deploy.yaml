@@ -7,38 +7,62 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+  # 이유: AWS 인바운드 규칙 0.0.0.0 허용보단, gitHub Action IP만 허용하는 것이 조금 더 안전할 듯 하여
     steps:
-      # 1. GitHub에서 코드 체크아웃
-      - name: Checkout code
+      - name: AWS 정보
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: 현 IP 가져오기
+        id: ip
+        run: echo "ip=$(curl -s https://checkip.amazonaws.com)" >> "$GITHUB_OUTPUT"
+
+      - name: 현 IP AWS SSH 허용
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ vars.SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ip }}/32
+
+      - name: GitHub 에서 코드 체크아웃
         uses: actions/checkout@v3
 
-      # 2. JDK 세팅
-      - name: Set up JDK
+      - name: JDK 17 세팅
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'corretto'
 
-      # 3. Gradle로 빌드
-      - name: Build with Gradle
+      - name: 빌드(Gradle)
         run: ./gradlew build
 
-      # 4. EC2로 JAR 전송
-      - name: Copy JAR to EC2
+      - name:  EC2로 JAR 복사
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ vars.EC2_HOST }}
           username: ubuntu
-          key: ${{secrets. EC2_SSH_KEY }}
+          key: ${{secrets.EC2_SSH_KEY }}
           source: "build/libs/MyStudy-0.0.1-SNAPSHOT.jar"
           target: "/home/ubuntu/app"
 
-      # 5. EC2에서 서비스 재시작
-      - name: Restart Service on EC2
+      - name: EC2에서 서비스 재시작
         uses: appleboy/ssh-action@v0.1.8
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ vars.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script:
             sudo systemctl restart mystudy.service
+
+      - name: 현 IP AWS INBOUND 보안그룹 제거
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ vars.SECURITY_GROUP_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ip }}/32
