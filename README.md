@@ -1,9 +1,17 @@
+# 보류
+## 배운점
+- github actions 기초 (ci, cd 수동)
+- aws ec2, rds 기초
+- 커밋 메시지, PR, code review bot
+
+
+
+---
 # MyStudy
 - Spring Boot 3.5.3
 - Java 17
 - AWS - RDS MySQL
 
-## 현재 계획
 - 블로그 개발을 통해 전반적인 백엔드 개발 공부.
 
 ## 커밋 메시지 컨벤션
